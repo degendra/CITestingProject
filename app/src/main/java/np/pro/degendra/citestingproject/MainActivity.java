@@ -1,5 +1,6 @@
 package np.pro.degendra.citestingproject;
 
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -10,19 +11,28 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
-    EditText editText;
+    EditText firstName, lastName;
     TextView textView;
-    Button button;
+    Button save;
+    TextInputLayout firstNameWrapper, lastNameWrapper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        editText = (EditText) findViewById(R.id.editText);
-        textView = (TextView) findViewById(R.id.textView);
-        button = (Button) findViewById(R.id.button);
+        firstName = (EditText) findViewById(R.id.firstName);
+        lastName = (EditText) findViewById(R.id.lastName);
 
-        button.setOnClickListener(new View.OnClickListener() {
+        firstNameWrapper = (TextInputLayout) findViewById(R.id.firstNameWrapper);
+        lastNameWrapper = (TextInputLayout) findViewById(R.id.lastNameWrapper);
+
+        firstNameWrapper.setErrorEnabled(true);
+        lastNameWrapper.setErrorEnabled(true);
+
+        textView = (TextView) findViewById(R.id.textView);
+        save = (Button) findViewById(R.id.save);
+
+        save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 updateTextView();
@@ -30,8 +40,17 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void updateTextView(){
-        textView.setText(editText.getText().toString());
+    private void updateTextView() {
+        if (firstName.getText().toString().isEmpty()) {
+            firstNameWrapper.setError(getString(R.string.error_first_name_empty));
+            lastNameWrapper.setError(null);
+        } else if (lastName.getText().toString().isEmpty()) {
+            firstNameWrapper.setError(null);
+            lastNameWrapper.setError(getString(R.string.error_last_name_empty));
+        } else {
+            lastNameWrapper.setError(null);
+            textView.setText(firstName.getText().toString() + " " + lastName.getText().toString());
+        }
     }
 
     @Override
