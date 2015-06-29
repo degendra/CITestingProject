@@ -29,7 +29,6 @@ public class MainActivityTest {
 
     @Test
     public void test_MainActivity() throws InterruptedException {
-        Assert.assertEquals("a", "b");
         onView(withId(R.id.editText)).perform(typeText("Degendra"));
         onView(withId(R.id.button)).perform(click());
 
